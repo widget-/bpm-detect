@@ -1,7 +1,9 @@
 # BPM Detection and Lights Thing #
+
 ### Java 7/8 application which can analyze audio, perform some spectrum analysis and fancy peak analysis, generate color schemes, and decide what the lights on my living room ceiling should be doing all in real-time.
 
 ## Demo: https://youtu.be/RZSnrHpecsM
+
 (Also I wrote the song in the demo too: https://soundcloud.com/djwidget/v-alpha)
 
 ![screenshot](http://i.imgur.com/6a82RHc.jpg)
@@ -9,6 +11,7 @@
 This program was designed for the lights I had designed and installed on my ceiling on my old apartment. It was made up of 16 3-foot-long 12V RGB LED strips. Each strip was individually controlled by hooking up an Arduino to a set of 4 TLC5940 chips, with each channel amplified by a transistor and an external 12V power supply. The lights were arranged in a "two diamonds" pattern as pictured roughly 12'x18' in size.
 
 ## License
+
 This code is garbage so it's under the MIT license for anyone to attempt to use.
 
 This project makes use of the following 3rd-party libraries:
@@ -18,9 +21,11 @@ This project makes use of the following 3rd-party libraries:
  - Jogamp JOGL (BSD) http://jogamp.org/jogl/www/
 
 ## Building
+
 It's been awhile, just load it into Eclipse and see what happens or use one of the binaries.
 
 ## Running
+
 I think all the libraries are packaged in. `java -jar bpm9_1_128000--2015-04-17.jar` should run it.
 
 Make sure your default recording device is a stereo input such as Stereo Mix or another loopback device.
@@ -28,16 +33,20 @@ Make sure your default recording device is a stereo input such as Stereo Mix or 
 Or you could just watch the Youtube video since it covers most of the lighting programs.
 
 ## Documentation
+
 There's hardly any, so I'll outline the files:
 
 ### Main
+
  - GUI.java
 	 - Provides the `main()` entry point, which creates a `new GUI()`. The GUI is responsible for coordinating everything.
 	 - The GUI sets up an audio buffer, and then proceeds to make a Swing GUI.
 	 - In the Swing GUI it adds a GLCanvas, which is the main graphical output of the program.
 	 - It starts a SerialWrite, which sends the Arduino the data for which ports should be which colors.
 	 - Finally, it sets up some timers to re-analyze the audio buffer for tempo changes.
+
 ### IO / buffering
+
  - AudioCapture.java
 	 - Soundcard stuff
  - SampleHistory.java
@@ -46,6 +55,7 @@ There's hardly any, so I'll outline the files:
 	 - Sends data to the Arduino as fast as it can. The cache checks if a light's state hasn't changed before sending it since the TLC5940 will remember its last state.
  - FFTer.java
 	 - Runs FFTs on the audio before it gets put into the SampleHistory, since we don't use raw amplitude for anything.
+
 ### UI
  - ColoredScrollbar.java
 	 - The fancy scrollbars on the side, used when setting the lights to "solid" since our living room didn't have normal ceiling lights and was pretty dark. Since the LEDs had a pretty strong green tint, I added sliders to change the color of them back to soft white manually, but I didn't want ugly scrollbars...
@@ -56,7 +66,9 @@ There's hardly any, so I'll outline the files:
 	 - It displays a live version of what the ceiling lights were doing, in case you didn't want to stare at them directly.
 	 - In addition, it has a small amount of debugging information related to the audio analysis, mostly in the form of confusing numbers and confidences that never make any sense even when it works.
 	 - It looked pretty badass on our projector.
+
 ### IRL lights
+
  - Light.java
 	 - Base light class, contains x and y midpoints used for calculations, plus x and y start- and end-points for showing on the screen.
  - LightCollection.java
@@ -77,7 +89,9 @@ There's hardly any, so I'll outline the files:
 	 - Programs were written with the position of the light, its index in the list, beat of the song relative to the downbeat, and phase within a beat (how close it was to the next beat.)
  - LightGrid.java
 	 - Deprecated, the old way of deciding what the lights should do.
+
 ### Analysis
+
  - BPMDetect.java
 	 - This is pretty confusing and I probably should have documented what I was doing as I wrote it, but here's the vague steps:
 	 - Each [interval] ms and for each frequency band (bass/mid/treble):
@@ -97,7 +111,9 @@ There's hardly any, so I'll outline the files:
 	 - Highest confidence wins! That's our tempo.
 
 ## Programs
+
 ### Active
+
 **Solid**: Change colors on the beat with all lights the same color.
 
 **Pulse**: Same as solid but fade immediately after the beat, making it "pulse" different colors.
@@ -148,6 +164,7 @@ color.
 **Channel**: Turns only one Arduino channel on: for figuring out where we plugged all the lights into.
 
 ### Hardware
+
 The Java program communicates to an Arduino via USB Serial.
 
 The Arduino loops, taking two numbers, a port and a value, and directly outputs them to the TLC5940 via SPI.
@@ -162,7 +179,7 @@ To save space, I didn't label the boards' inputs and outputs on the far left/rig
  - **SIN/SOUT**: Signal In/Out
  - **BLANK**: Reset all the outputs (when turning on usually)
  - **XLAT**: Dunno
- - **GSCLK**: Dunno
+ - **GSCLK**: Reference ground for SCLK
  - **+5V**: Signal level voltage
  - **+12V**: Light level voltage
  - **GND**: Ground
