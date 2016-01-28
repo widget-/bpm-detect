@@ -99,28 +99,52 @@ There's hardly any, so I'll outline the files:
 ## Programs
 ### Active
 **Solid**: Change colors on the beat with all lights the same color.
+
 **Pulse**: Same as solid but fade immediately after the beat, making it "pulse" different colors.
+
 **Fade**: Close to solid but before the end of each beat smoothly fade into the next color.
+
 **Spin**: Slowly rotates colors in a gradient but also rotates another 60º or so on each beat.
+
 **Chase1**: Only one light will light up at a time, snaking around the lights such that a full loop occurs every two beats.
+
 **Chase2**: Same as Chase1 but the rest of the lights will be dimly lit another color.
+
 **Explode**: "Explodes" from the center diamond to the outer diamond each beat.
-**Diamond**: Inner and outer diamonds are two colors, each beat they change like Solid but the outer one will gain the inner one's color.
+
+**Diamond**: Inner and outer diamonds are two colors, each beat they change like Solid but the outer one will gain the inner one's 
+color.
+
 **FromPt**: (From Point) Each beat, light starts from a point on the graph and expands outward from there.
+
 **FromPt2** Same as FromPt but doesn't reset to black at the beginning of each beat.
+
 ###Responsive
+
 **Across**: Top half of the lights are bass, one length on the other side is mid, and the other is treble.
+
 **Along**: Inner diamond is bass, outer diamond is treble, and the other ones are mid.
+
 ###Passive
+
 **DFade**: Diagonal slow fade.
+
 **HFade**: Horizontal slow fade.
+
 **FlatFade**: No gradient, slowly fade as one color.
+
 ###Other modes
+
 **Solid**: Manually pick a color with the sliders
+
 **White**: When lazy
+
 **Off**: Off
+
 **Fade**: Chill super-slow fade.
+
 **Mosaic**: This was supposed to be similar to theater lighting where you have multiple colored lights that all average out to white (which really adds vividness without being obvious how), but I never got the algorithm right and every now and then they all sync up at some color which is kinda cool to experience in its own right.
+
 **Channel**: Turns only one Arduino channel on: for figuring out where we plugged all the lights into.
 
 ### Hardware
